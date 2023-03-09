@@ -44,16 +44,21 @@ public class UserService {
 		}
 	}
 
-	/*
-	 * public User update(String id, User obj) { try { Optional<User> entity =
-	 * repository.findById(id); updateData(entity, obj); return
-	 * repository.save(entity); } catch (EntityNotFoundException e) { throw new
-	 * ResourceNotFoundException(id); } }
-	 * 
-	 * private void updateData(Optional<User> entity, User obj) {
-	 * entity.setName(obj.getName()); entity.setEmail(obj.getEmail()); }
-	 */
-	
+	public User update(String id, User obj) {
+		try {
+			User newObj = findById(id);
+			updateData(obj, newObj);
+			return repository.save(newObj);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}
+	}
+
+	private void updateData(User obj, User newObj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDTO) {
 		return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
 	}
