@@ -1,5 +1,7 @@
 package com.joaolucas.workshopmongodb.services;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,11 @@ public class PostService {
 
 	public List<Post> findByTitle(String text) {
 		return repository.searchTitle(text);
+	}
+
+	public List<Post> fullSearch(String text, Instant minDate, Instant maxDate) {
+		maxDate.plus(1, ChronoUnit.DAYS);
+		return repository.fullSearch(text, minDate, maxDate);
 	}
 
 }
